@@ -11,6 +11,7 @@ import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -125,6 +126,15 @@ class BrowserRobot {
             HomeScreenRobot().interact()
             return HomeScreenRobot.Transition()
         }
+
+        fun openThreeDotMenu(interact: ThreeDotMainMenuRobot.() -> Unit): ThreeDotMainMenuRobot.Transition {
+            threeDotMenuButton
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+            ThreeDotMainMenuRobot().interact()
+            return ThreeDotMainMenuRobot.Transition()
+        }
     }
 }
 
@@ -149,3 +159,5 @@ private val floatingEraseButton = onView(allOf(withId(R.id.erase), isDisplayed()
 private val tabsCounter = onView(withId(R.id.tabs))
 
 private val tabsTrayEraseHistoryButton = onView(withText(R.string.tabs_tray_action_erase))
+
+private val threeDotMenuButton = onView(withId(R.id.menuView))

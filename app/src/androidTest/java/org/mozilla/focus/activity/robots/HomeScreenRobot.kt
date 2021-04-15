@@ -9,6 +9,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
 import org.junit.Assert.assertTrue
 import org.mozilla.focus.R
@@ -33,6 +34,20 @@ class HomeScreenRobot {
 
             ThreeDotMainMenuRobot().interact()
             return ThreeDotMainMenuRobot.Transition()
+        }
+
+        fun searchAndOpenHomeScreenShortcut(title: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
+            mDevice.pressHome()
+
+            fun homeScreenView() = UiScrollable(UiSelector().scrollable(true))
+            homeScreenView().setAsHorizontalList()
+
+            fun shortcut() =
+                homeScreenView().getChildByText(UiSelector().textContains(title), title)
+            shortcut().clickAndWaitForNewWindow()
+
+            BrowserRobot().interact()
+            return BrowserRobot.Transition()
         }
     }
 }
