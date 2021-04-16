@@ -36,15 +36,16 @@ class HomeScreenRobot {
             return ThreeDotMainMenuRobot.Transition()
         }
 
+        // Searches a page shortcut on the device homescreen
         fun searchAndOpenHomeScreenShortcut(title: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
             mDevice.pressHome()
 
-            fun homeScreenView() = UiScrollable(UiSelector().scrollable(true))
-            homeScreenView().setAsHorizontalList()
+            val deviceHomeScreen = UiScrollable(UiSelector().scrollable(true))
+            deviceHomeScreen.setAsHorizontalList()
 
-            fun shortcut() =
-                homeScreenView().getChildByText(UiSelector().textContains(title), title)
-            shortcut().clickAndWaitForNewWindow()
+            val shortcut =
+                deviceHomeScreen.getChildByText(UiSelector().textContains(title), title)
+            shortcut.clickAndWaitForNewWindow()
 
             BrowserRobot().interact()
             return BrowserRobot.Transition()
