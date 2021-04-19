@@ -11,7 +11,6 @@ import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -61,9 +60,14 @@ class BrowserRobot {
             .waitForExists(webPageLoadwaitingTime)
 
         runWithIdleRes(sessionLoadedIdlingResource) {
-            assertTrue(
-                browserURLbar.text.contains(expectedText, ignoreCase = true)
-            )
+            try {
+                assertTrue(
+                    browserURLbar.text.contains(expectedText, ignoreCase = true)
+                )
+            } catch (e: AssertionError) {
+                browserURLbar.click()
+                editUrlView.check(matches(withText(expectedText)))
+            }
         }
     }
 
@@ -161,3 +165,5 @@ private val tabsCounter = onView(withId(R.id.tabs))
 private val tabsTrayEraseHistoryButton = onView(withText(R.string.tabs_tray_action_erase))
 
 private val threeDotMenuButton = onView(withId(R.id.menuView))
+
+private val editUrlView = onView(withId((R.id.urlView)))
