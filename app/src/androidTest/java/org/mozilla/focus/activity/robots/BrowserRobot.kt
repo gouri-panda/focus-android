@@ -56,18 +56,13 @@ class BrowserRobot {
 
         browserURLbar.waitForExists(webPageLoadwaitingTime)
 
-        mDevice.findObject(UiSelector().resourceId("$packageName:id/webview"))
+        mDevice.findObject(UiSelector().textContains(expectedText))
             .waitForExists(webPageLoadwaitingTime)
 
         runWithIdleRes(sessionLoadedIdlingResource) {
-            try {
-                assertTrue(
-                    browserURLbar.text.contains(expectedText, ignoreCase = true)
-                )
-            } catch (e: AssertionError) {
-                browserURLbar.click()
-                editUrlView.check(matches(withText(expectedText)))
-            }
+            assertTrue(
+                browserURLbar.text.contains(expectedText, ignoreCase = true)
+            )
         }
     }
 
