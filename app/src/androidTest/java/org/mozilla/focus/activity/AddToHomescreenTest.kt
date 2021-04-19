@@ -13,8 +13,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mozilla.focus.activity.robots.browserScreen
-import org.mozilla.focus.activity.robots.homeScreen
 import org.mozilla.focus.activity.robots.searchScreen
 import org.mozilla.focus.helpers.MainActivityFirstrunTestRule
 import org.mozilla.focus.helpers.TestHelper.readTestAsset
@@ -64,13 +62,11 @@ class AddToHomescreenTest {
         }.loadPage(pageUrl) {
             progressBar.waitUntilGone(webPageLoadwaitingTime)
         }.openThreeDotMenu {
-            openAddToHSDialog()
+        }.openAddToHSDialog {
             addShortcutWithTitle(pageTitle)
             if (VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 handleAddAutomaticallyDialog()
             }
-        }
-        homeScreen {
         }.searchAndOpenHomeScreenShortcut(pageTitle) {
             verifyPageURL(pageUrl)
         }
@@ -84,39 +80,13 @@ class AddToHomescreenTest {
         searchScreen {
         }.loadPage(pageUrl) {
         }.openThreeDotMenu {
+        }.openAddToHSDialog {
             // leave shortcut title empty and add it to HS
-            openAddToHSDialog()
             addShortcutNoTitle()
             if (VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 handleAddAutomaticallyDialog()
             }
-        }
-        homeScreen {
         }.searchAndOpenHomeScreenShortcut(webServer.hostName) {
-            verifyPageURL(pageUrl)
-        }
-    }
-
-    @Test
-    fun eraseDataAndOpenShortcut() {
-        val pageUrl = webServer.url("").toString()
-        val pageTitle = "test2"
-
-        // Open website, and click 'Add to homescreen'
-        searchScreen {
-        }.loadPage(pageUrl) {
-            progressBar.waitUntilGone(webPageLoadwaitingTime)
-        }.openThreeDotMenu {
-            openAddToHSDialog()
-            addShortcutWithTitle(pageTitle)
-            if (VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                handleAddAutomaticallyDialog()
-            }
-        }
-        // clear data and open the page shortcut
-        browserScreen {
-        }.clearBrowsingData {
-        }.searchAndOpenHomeScreenShortcut(pageTitle) {
             verifyPageURL(pageUrl)
         }
     }

@@ -9,7 +9,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
 import org.junit.Assert.assertTrue
 import org.mozilla.focus.R
@@ -34,21 +33,6 @@ class HomeScreenRobot {
 
             ThreeDotMainMenuRobot().interact()
             return ThreeDotMainMenuRobot.Transition()
-        }
-
-        // Searches a page shortcut on the device homescreen
-        fun searchAndOpenHomeScreenShortcut(title: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
-            mDevice.pressHome()
-
-            val deviceHomeScreen = UiScrollable(UiSelector().scrollable(true))
-            deviceHomeScreen.setAsHorizontalList()
-
-            val shortcut =
-                deviceHomeScreen.getChildByText(UiSelector().textContains(title), title)
-            shortcut.clickAndWaitForNewWindow()
-
-            BrowserRobot().interact()
-            return BrowserRobot.Transition()
         }
     }
 }

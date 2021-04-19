@@ -17,35 +17,6 @@ import org.mozilla.focus.helpers.TestHelper.waitingTime
 
 class ThreeDotMainMenuRobot {
 
-    fun openAddToHSDialog() {
-        addToHSmenuItem.waitForExists(waitingTime)
-        // If the menu item is not clickable, wait and retry
-        while (!addToHSmenuItem.isClickable) {
-            mDevice.pressBack()
-            threeDotMenuButton.perform(click())
-        }
-        addToHSmenuItem.click()
-    }
-
-    fun handleAddAutomaticallyDialog() {
-        addAutomaticallyBtn.waitForExists(waitingTime)
-        addAutomaticallyBtn.click()
-        addAutomaticallyBtn.waitUntilGone(waitingTime)
-    }
-
-    fun addShortcutWithTitle(title: String) {
-        shortcutTitle.waitForExists(waitingTime)
-        shortcutTitle.clearTextField()
-        shortcutTitle.text = title
-        addToHSOKBtn.click()
-    }
-
-    fun addShortcutNoTitle() {
-        shortcutTitle.waitForExists(waitingTime)
-        shortcutTitle.clearTextField()
-        addToHSOKBtn.click()
-    }
-
     class Transition {
         fun openSettings(interact: SettingsRobot.() -> Unit): SettingsRobot.Transition {
             mDevice.findObject(UiSelector().text("Settings")).waitForExists(waitingTime)
@@ -55,6 +26,19 @@ class ThreeDotMainMenuRobot {
 
             SettingsRobot().interact()
             return SettingsRobot.Transition()
+        }
+
+        fun openAddToHSDialog(interact: AddToHomeScreenRobot.() -> Unit): AddToHomeScreenRobot.Transition {
+            addToHSmenuItem.waitForExists(waitingTime)
+            // If the menu item is not clickable, wait and retry
+            while (!addToHSmenuItem.isClickable) {
+                mDevice.pressBack()
+                threeDotMenuButton.perform(click())
+            }
+            addToHSmenuItem.click()
+
+            AddToHomeScreenRobot().interact()
+            return AddToHomeScreenRobot.Transition()
         }
     }
 }
@@ -66,22 +50,5 @@ private val threeDotMenuButton = onView(ViewMatchers.withId(R.id.menuView))
 private val addToHSmenuItem = mDevice.findObject(
     UiSelector()
         .resourceId("$packageName:id/add_to_homescreen")
-)
-
-private val addToHSOKBtn = mDevice.findObject(
-    UiSelector()
-        .resourceId("$packageName:id/addtohomescreen_dialog_add")
-        .enabled(true)
-)
-
-private val addAutomaticallyBtn = mDevice.findObject(
-    UiSelector()
-        .className("android.widget.Button")
-        .textContains("Add automatically")
-)
-
-private val shortcutTitle = mDevice.findObject(
-    UiSelector()
-        .resourceId("$packageName:id/edit_title")
 )
 
