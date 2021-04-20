@@ -56,12 +56,14 @@ class BrowserRobot {
 
         browserURLbar.waitForExists(webPageLoadwaitingTime)
 
-        mDevice.findObject(UiSelector().textContains(expectedText))
-            .waitForExists(webPageLoadwaitingTime)
+//        mDevice.findObject(UiSelector().textContains(expectedText))
+//            .waitForExists(webPageLoadwaitingTime)
 
         runWithIdleRes(sessionLoadedIdlingResource) {
             assertTrue(
-                browserURLbar.text.contains(expectedText, ignoreCase = true)
+               // browserURLbar.text.contains(expectedText, ignoreCase = true)
+                mDevice.findObject(UiSelector().textContains(expectedText))
+                    .waitForExists(webPageLoadwaitingTime)
             )
         }
     }
@@ -161,4 +163,3 @@ private val tabsTrayEraseHistoryButton = onView(withText(R.string.tabs_tray_acti
 
 private val threeDotMenuButton = onView(withId(R.id.menuView))
 
-private val editUrlView = onView(withId((R.id.urlView)))

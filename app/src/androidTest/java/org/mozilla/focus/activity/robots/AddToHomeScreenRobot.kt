@@ -34,9 +34,9 @@ class AddToHomeScreenRobot {
 
             fun deviceHomeScreen() = UiScrollable(UiSelector().scrollable(true))
             deviceHomeScreen().setAsHorizontalList()
+            deviceHomeScreen().scrollTextIntoView(title)
 
-            fun shortcut() =
-                deviceHomeScreen().getChildByText(UiSelector().textContains(title), title)
+            fun shortcut() = mDevice.findObject(UiSelector().text(title))
             shortcut().clickAndWaitForNewWindow()
 
             BrowserRobot().interact()
