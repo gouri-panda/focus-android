@@ -35,7 +35,7 @@ class AddToHomeScreenRobot {
             fun deviceHomeScreen() =
                 UiScrollable(UiSelector().resourceId("com.google.android.apps.nexuslauncher:id/workspace"))
             deviceHomeScreen().setAsHorizontalList()
-            deviceHomeScreen().scrollTextIntoView(title)
+            deviceHomeScreen().getChildByText(UiSelector().text(title), title, true)
 
             fun shortcut() = mDevice.findObject(UiSelector().text(title))
             shortcut().clickAndWaitForNewWindow()
