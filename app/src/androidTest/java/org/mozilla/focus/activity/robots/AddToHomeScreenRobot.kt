@@ -32,7 +32,8 @@ class AddToHomeScreenRobot {
         fun searchAndOpenHomeScreenShortcut(title: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
             mDevice.pressHome()
 
-            fun deviceHomeScreen() = UiScrollable(UiSelector().scrollable(true))
+            fun deviceHomeScreen() =
+                UiScrollable(UiSelector().resourceId("com.google.android.apps.nexuslauncher:id/workspace"))
             deviceHomeScreen().setAsHorizontalList()
             deviceHomeScreen().scrollTextIntoView(title)
 
